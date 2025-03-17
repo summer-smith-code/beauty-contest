@@ -57,29 +57,36 @@ void initializeScore(int score[]) {
 }
 
 int playGame(int playerCount, int playerScore[]) {
+    int roundNum = 1;
     while (playerCount == 5) {
         double average = 0.0;
         int closestToAvg = -100;
         int playerChoice[5];
+        printf("\nIt is round %d.\n", roundNum);
         for (int i=0; i<playerCount; i++) {
-            printf("\nEnter a number 0-100, player %d.\n", i+1);
+            printf("Enter a number 0-100, player %d.\n", i+1);
             scanf("%d", &playerChoice[i]);
+            while (playerChoice[i] < 0 || playerChoice[i] > 100) {
+                printf("Invalid choice. Please select a number 0-100\n");
+                scanf("%d", &playerChoice[i]);
+            }
             average += playerChoice[i];
         }
         average /= playerCount;
         average *= 0.8;
-        printf("The average score was %.2lf\n", average);
+        printf("The average was %.2lf\n", average);
         for (int i=0; i<playerCount; i++) {
             if (fabs(playerChoice[i] - average) < fabs(closestToAvg - average)) {
                 closestToAvg = playerChoice[i];
             }
         }
-        printf("The closest number was %d", closestToAvg);
+        printf("The closest number was %d.\n", closestToAvg);
         for (int i=0; i<playerCount; i++) {
             if (playerScore[i] == -10) {
                 playerCount -=1;
             }
         }
+        roundNum += 1;
     }
     return playerCount;
 }
